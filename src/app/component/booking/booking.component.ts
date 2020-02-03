@@ -23,6 +23,7 @@ export class BookingComponent implements OnInit {
     flightId: 45
   };
 
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {

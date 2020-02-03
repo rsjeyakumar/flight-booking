@@ -76,7 +76,41 @@
                     </p>
                 </div>
             </div>
-            <button class="btn-success btn btn-block" (click)="onSubmit()">Continue Booking</button>
+            <div class="my-5 px-4">
+                <button class="btn-success btn btn-block" (click)="onSubmit()">Login to Continue Booking</button>
+            </div>
+
+            <div class="card m-3">
+                <h5 class="card-header text-primary">Payment Method</h5>
+                <div class="card-body p-0 my-1">
+                    <form [formGroup]="paymenttype" class="mx-5">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                PayTm
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                value="option2">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Google Pay
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3">
+                            <label class="form-check-label" for="exampleRadios3">
+                                BHIM/UPI
+                            </label>
+                        </div>
+                        <p class="text-center mt-4"><button class="btn-success btn" (click)="onSubmit()">Pay</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 
