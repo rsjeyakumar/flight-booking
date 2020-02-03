@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FlightBookingService } from '../../services/flight-booking.service';
+import { Search } from '../../models/models';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -10,6 +11,8 @@ import { FlightBookingService } from '../../services/flight-booking.service';
 export class SearchComponent implements OnInit {
   depatureDate: Date;
   searchForm: FormGroup;
+  loader = false;
+  flightList: Search[];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -31,11 +34,42 @@ export class SearchComponent implements OnInit {
      deaptureLocation: ['', Validators.required],
      arraivalLocation: ['', Validators.required],
      depatureDate: ['', Validators.required],
-     arraivalDate: ['', Validators.required],
      travellers: ['', Validators.required],
      travelClass: ['', Validators.required],
    });
  }
+
+ /*
+  * @param Search Flight
+  * Create Search Form group object for Search Flights
+  */
+  showFlights() {
+    if (this.searchForm.valid) {
+      this.loader = true;
+      const postObj = {
+        departureLocation: this.searchForm.value.deaptureLocation,
+        arrivalLocation: this.searchForm.value.arraivalLocation,
+        depatureDate: this.searchForm.value.depatureDate,
+        noOfTravellers: this.searchForm.value.travellers,
+        class: this.searchForm.value.travelClass
+      };
+      this.flightService.searchFlights(postObj).subscribe(res => {
+        console.log(res);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+      });
+  }
+}
+
+/*
+  * @param Book Flight
+  * Book Flight from list
+  */
+bookFlights(ticketId) {
+  const travellers = this.searchForm.value.travellers;
+  this.router.navigate(['/booking'], { queryParams: { page: 1 } });
+}
 
   ngOnInit() {
     this.createForm();
