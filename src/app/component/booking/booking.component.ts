@@ -9,6 +9,10 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 export class BookingComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
+  loginForm: FormGroup;
+  loginScreen = false;
+  paymenttype: FormGroup;
+
 
   flightDeatils = {
     flightName: 'Air Asia',
@@ -23,16 +27,30 @@ export class BookingComponent implements OnInit {
     flightId: 45
   };
 
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
       tickets: new FormArray([])
     });
-
+    this.createForm();
     this.onChangeTickets(2);
+
+    this.paymenttype = new FormGroup({
+
+    });
   }
 
+
+  /* Create form group object for login form
+  */
+  createForm() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
   get t() { return this.f.tickets as FormArray; }
@@ -56,7 +74,7 @@ export class BookingComponent implements OnInit {
   onSubmit() {
     alert('test');
     this.submitted = true;
-
+    this.loginScreen = true;
     // stop here if form is invalid
     // if (this.dynamicForm.invalid) {
     //   return;
