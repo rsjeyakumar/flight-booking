@@ -6,11 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: SearchComponent
-  },
-  {
-    path: 'search',
-    component: SearchComponent
-  } 
+  }
 ];
 
 @NgModule({
