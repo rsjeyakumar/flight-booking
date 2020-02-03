@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { MessageSubscriptionService } from '../app/services/message-subscription.service';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,7 @@ import { FooterComponent } from './shared/footer/footer.component';
     SharedModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [MessageSubscriptionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
