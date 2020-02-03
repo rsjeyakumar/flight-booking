@@ -1,1 +1,84 @@
-<p>booking works!</p>
+<div class="container pt-5 ">
+    <div class="row pt-5">
+        <div class="col-sm-7">
+            <div class="row d-block">
+                <div class="card m-3">
+                    <h5 class="card-header text-primary">Flight Details</h5>
+                    <div class="card-body">
+                        <div class="row border rounder">
+                            <div class="col-sm-12">
+                                <p>{{flightDeatils.departureLocation}} - {{flightDeatils.arrivalLocation}} |
+                                    {{flightDeatils.departureDate | date:'d/M/y'}}</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h5>{{flightDeatils.flightName}}</h5>
+                            </div>
+                            <div class="col-sm-8">
+                                <span class="mr-5">
+                                    <b>{{flightDeatils.departureLocation}}</b>
+                                </span>
+                                <span>
+                                    <b>{{flightDeatils.arrivalLocation}}</b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row pb-5 d-block">
+                <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+                    <div class="card m-3">
+                        <h5 class="card-header text-primary">Passenger Details</h5>
+                        <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <b class="card-title">Passenger {{i + 1}}</b>
+                                <div [formGroup]="ticket" class="form-row">
+                                    <div class="form-group col-6">
+                                        <label>Name</label>
+                                        <input type="text" formControlName="passengerName" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.passengerName.errors }" />
+                                        <div *ngIf="submitted && ticket.controls.passengerName.errors"
+                                            class="invalid-feedback">
+                                            <div *ngIf="ticket.controls.passengerName.errors.required">Name is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label>Age</label>
+                                        <input type="text" formControlName="passengerAge" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.email.errors }" />
+                                        <div *ngIf="submitted && ticket.controls.passengerAge.errors"
+                                            class="invalid-feedback">
+                                            <div *ngIf="ticket.controls.passengerAge.errors.required">Age is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="card m-3">
+                <h5 class="card-header text-primary">Price Summary</h5>
+                <div class="card-body p-0 my-1">
+                    <p class="border-bottom"><span class="ml-1">Adult</span> <span
+                            class="float-right mr-1">&#x20b9;1290</span>
+                    </p>
+                    <p class="border-bottom"><span class="ml-1">Tax</span><span
+                            class="float-right mr-1">&#x20b9;0</span>
+                    </p>
+                    <p class="text-info"><b class=" ml-1">Grand Total</b> <b class="float-right mr-1">&#x20b9;1290</b>
+                    </p>
+                </div>
+            </div>
+            <button class="btn-success btn btn-block" (click)="onSubmit()">Continue Booking</button>
+        </div>
+    </div>
+
+
+</div>

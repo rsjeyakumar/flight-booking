@@ -6,11 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: BookingComponent
-  },
-  {
-    path: 'booking',
-    component: BookingComponent
-  } 
+  }
 ];
 
 @NgModule({
