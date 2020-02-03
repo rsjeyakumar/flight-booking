@@ -14,44 +14,83 @@ export class FlightBookingService {
   constructor(private http: HttpClient) {
   }
 
-   /* Http Headers */
-   httpOptions = {
+  /* Http Headers */
+  httpOptions = {
     headers: new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'
     })
   };
 
-  /*
-  * @param data
+  /* @param data
   * Validate Login API
   * POST Method
   * Type Object
   */
- checkLogin(data): Observable<any> {
-  this.showAlert = {};
-  return this.http.post(this.loginAPI, data, this.httpOptions).pipe(
-    catchError(this.errorHandler.bind(this))
-  );
-}
+  checkLogin(data): Observable<any> {
+    this.showAlert = {};
+    return this.http.post(this.loginAPI, data, this.httpOptions).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
 
-   /*
-  * @param data
-  * Search Flight
-  * POST Method
-  * Type Object
-  */
- searchFlights(data): Observable<any> {
-  this.showAlert = {};
-  return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
-    catchError(this.errorHandler.bind(this))
-  );
-}
+  /*
+ * @param data
+ * Search Flight
+ * POST Method
+ * Type Object
+ */
+  searchFlights(data): Observable<any> {
+    this.showAlert = {};
+    return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
 
-/*
-   * @param error
-   * Error Handling
+  /*
+ * @param data
+ * Search Flight
+ * POST Method
+ * Type Object
+ */
+  flightDetails(data): Observable<any> {
+    this.showAlert = {};
+    return this.http.get(this.searchAPI, this.httpOptions).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
+
+
+  /*
+   * @param data
+   * Search Flight
+   * POST Method
+   * Type Object
    */
+  addPassenger(data): Observable<any> {
+    this.showAlert = {};
+    return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
+
+  /*
+ * @param data
+ * Search Flight
+ * POST Method
+ * Type Object
+ */
+  makePayment(data): Observable<any> {
+    this.showAlert = {};
+    return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
+
+  /*
+     * @param error
+     * Error Handling
+     */
   private errorHandler(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
