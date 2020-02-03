@@ -48,7 +48,7 @@
                                     <div class="form-group col-6">
                                         <label>Age</label>
                                         <input type="text" formControlName="passengerAge" class="form-control"
-                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.email.errors }" />
+                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.passengerAge.errors }" />
                                         <div *ngIf="submitted && ticket.controls.passengerAge.errors"
                                             class="invalid-feedback">
                                             <div *ngIf="ticket.controls.passengerAge.errors.required">Age is required
@@ -116,3 +116,22 @@
 
 
 </div>
+
+<p-dialog header="Login" [(visible)]="loginScreen" [modal]="true" [style]="{width: '50vw'}" [maximizable]="true"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <form [formGroup]="loginForm" (ngSubmit)="validateLogin();">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" formControlName="username" id="exampleInputEmail1"
+                aria-describedby="emailHelp" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1"
+                placeholder="Password" required>
+        </div>
+        <button type="submit" pButton icon="pi pi-check" (click)="display=false" label="Login"></button>
+        <button type="button" pButton icon="pi pi-times" (click)="display=false" label="Cancel"
+            class="ui-button-secondary"></button>
+    </form>
+</p-dialog>
