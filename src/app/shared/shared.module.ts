@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FlightBookingService } from '../services/flight-booking.service';
 import { AlertComponent } from './alert/alert.component';
 import { LoaderComponent } from './loader/loader.component';
+import { AuthGuardService } from '../services/auth-guard.service';
 
 @NgModule({
   declarations: [AlertComponent, LoaderComponent],
@@ -13,7 +14,7 @@ import { LoaderComponent } from './loader/loader.component';
     CommonModule,
     PrimengModule
   ],
-  providers: [FlightBookingService],
+  providers: [FlightBookingService, AuthGuardService],
   exports: [
     FormsModule, ReactiveFormsModule,
     HttpClientModule, AlertComponent, LoaderComponent]

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-
+import { FlightBookingService } from '../../services/flight-booking.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -11,6 +12,7 @@ export class BookingComponent implements OnInit {
   submitted = false;
   loginForm: FormGroup;
   loginScreen = false;
+  loader = false;
   paymenttype: FormGroup;
 
 
@@ -28,7 +30,11 @@ export class BookingComponent implements OnInit {
   };
 
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private flightService: FlightBookingService
+    ) { }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
@@ -51,6 +57,13 @@ export class BookingComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
+
+  /*
+  * @param
+  * Get login form controll access
+  */
+ get login() { return this.loginForm.controls; }
+ 
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
   get t() { return this.f.tickets as FormArray; }
@@ -68,6 +81,35 @@ export class BookingComponent implements OnInit {
       for (let i = this.t.length; i >= numberOfTickets; i--) {
         this.t.removeAt(i);
       }
+    }
+  }
+
+   /*
+   * @param Login Validate
+   * Validate login form with credentials
+   * @input sapId and password
+   */
+  validateLogin() {
+    if (this.loginForm.valid) {
+      const postObj = {
+        phoneNumber: this.loginForm.value.username,
+        password: this.loginForm.value.password
+      };
+      // tslint:disable-next-line: deprecation
+      this.flightService.checkLogin(postObj).subscribe(user => {
+        console.log(user);
+        if (user) {
+          const userDetails = {
+            customerName: user.customerName,
+            customerId: user.customerId
+          };
+          sessionStorage.setItem('currentUser', JSON.stringify(userDetails));
+          this.router.navigate(['dashboard']);
+          this.loader = false;
+        }
+      }, error => {
+        this.loader = false;
+      });
     }
   }
 
