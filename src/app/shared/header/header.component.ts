@@ -17,8 +17,10 @@ export class HeaderComponent implements OnInit {
 
   /* Get loggged user details from subject subscription */
   getLoginUser(): void {
+
     // subscribe to home component messages
     this.subscription = this.messageService.getMessage().subscribe(userData => {
+
       if (userData) {
         console.log(userData);
         this.userDetails = userData;
@@ -28,15 +30,26 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
- 
+
+  getIfAlreadyLogged() {
+    const user = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (user) {
+      /* send message to subscribers via observable subject */
+      this.messageService.sendMessage(user);
+
+    }
+
+  }
+
   /* logout */
   logout(): void {
     sessionStorage.clear();
     this.messageService.clearMessages();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/search']);
   }
   ngOnInit() {
     this.getLoginUser();
+    this.getIfAlreadyLogged();
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
