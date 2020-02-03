@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
 import { Router } from '@angular/router';
+import { MessageSubscriptionService } from "./../../services/message-subscription.service";
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -33,8 +34,9 @@ export class BookingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private flightService: FlightBookingService
-    ) { }
+    private flightService: FlightBookingService,
+    private messageServive: MessageSubscriptionService
+  ) { }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
@@ -62,8 +64,8 @@ export class BookingComponent implements OnInit {
   * @param
   * Get login form controll access
   */
- get login() { return this.loginForm.controls; }
- 
+  get login() { return this.loginForm.controls; }
+
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
   get t() { return this.f.tickets as FormArray; }
@@ -84,11 +86,11 @@ export class BookingComponent implements OnInit {
     }
   }
 
-   /*
-   * @param Login Validate
-   * Validate login form with credentials
-   * @input sapId and password
-   */
+  /*
+  * @param Login Validate
+  * Validate login form with credentials
+  * @input sapId and password
+  */
   validateLogin() {
     if (this.loginForm.valid) {
       const postObj = {
@@ -104,6 +106,7 @@ export class BookingComponent implements OnInit {
             customerId: user.customerId
           };
           sessionStorage.setItem('currentUser', JSON.stringify(userDetails));
+          this.messageServive.sendMessage(user);
           this.router.navigate(['dashboard']);
           this.loader = false;
         }

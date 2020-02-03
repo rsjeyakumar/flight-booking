@@ -10,6 +10,8 @@ export class FlightBookingService {
   showAlert = {};
   searchAPI = 'http://10.117.189.28:8087/myflight/flights';
   loginAPI = 'http://10.117.189.28:8087/myflight/customers/login';
+  passenger = 'http://10.117.189.28:8087/myflight/tickets/passengers';
+  payments = 'http://10.117.189.28:8087/myflight/tickets';
 
   constructor(private http: HttpClient) {
   }
