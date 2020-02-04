@@ -11,20 +11,20 @@
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                             <h5 class="card-title text-info">Flight</h5>
-                                            <span class="card-title">{{flightName}}</span>
+                                            <span class="card-title">{{paramDetails.flightName}}</span>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                             <h5 class="card-title text-info">Departure</h5>
-                                            <span class="card-title">{{departureTime}}</span>
+                                            <span class="card-title">{{paramDetails.departureTime}}</span>
                                         </div>
                                        
                                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                             <h5 class="card-title text-info">Arrival</h5>
-                                            <span class="card-title">{{arrivalTime}}</span>
+                                            <span class="card-title">{{paramDetails.arrivalTime}}</span>
                                         </div>
                                         <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                             <h5 class="card-title text-info">Price</h5>
-                                            <span class="card-title">{{price}}</span>
+                                            <span class="card-title">&#x20b9;{{paramDetails.price}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -86,14 +86,14 @@
             </div>
         </div>
         <div class="col-sm-5">
-            <div class="card m-3">
+            <div class="card m-3">               
                 <h5 class="card-header text-success">Price Summary</h5>
                 <div class="card-body p-0 my-1">
                     <p class="border-bottom"><span class="ml-1">Ticket Fair</span> <span
-                        class="float-right mr-1">&#x20b9;{{price}}</span>
+                        class="float-right mr-1">&#x20b9;{{paramDetails.price}}</span>
                     </p>
                     <p class="border-bottom"><span class="ml-1">Number of Passengers</span> <span
-                        class="float-right mr-1">{{noOfPassengers}}</span>
+                        class="float-right mr-1">{{paramDetails.noOfPassenger}}</span>
                     </p>
                     <p class="border-bottom"><span class="ml-1">Tax(GST: 5%)</span><span
                             class="float-right mr-1">&#x20b9;{{taxPrice}}</span>
@@ -102,7 +102,10 @@
                     </p>
                 </div>
             </div>
-            <div class="my-5 px-4">
+            <div class="my-5 px-4" *ngIf="checkLogin">
+                <button class="btn-success btn btn-block" (click)="onSubmit()">Continue Booking</button>
+            </div>
+            <div class="my-5 px-4" *ngIf="checkbeforeLogin">
                 <button class="btn-success btn btn-block" (click)="onSubmit()">Login to Continue Booking</button>
             </div>
 
@@ -155,6 +158,16 @@
                         Mobile Number is <strong>required</strong>
                     </div>
                 </div>
+                <div *ngIf="login.username.touched && login.username.invalid" class="error">
+                    <div *ngIf="login.username.errors && login.username.errors.minlength">
+                       Minimum 10 digit is <strong>required</strong>
+                    </div>
+                </div>
+                <div *ngIf="login.username.touched && login.username.invalid" class="error">
+                    <div *ngIf="login.username.errors && login.username.errors.maxlength">
+                       Maximum 10 digit is <strong>required</strong>
+                    </div>
+                </div>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
@@ -165,8 +178,13 @@
                         Password is <strong>required</strong>
                     </div>
                 </div>
+                <div *ngIf="login.password.touched && login.password.invalid" class="error">
+                    <div *ngIf="login.password.errors && login.password.errors.minlength">
+                        Minimum 8 digit is <strong>required</strong>
+                    </div>
+                </div>
         </div>
-        <button type="submit" [disabled]="loginForm.invalid" pButton icon="pi pi-check" (click)="loginScreen=false" label="Login"></button>
+        <button type="submit" [disabled]="loginForm.invalid" pButton icon="pi pi-check" label="Login"></button>
         <button type="button" pButton icon="pi pi-times" (click)="loginScreen=false" label="Cancel"
             class="ui-button-secondary"></button>
     </form>

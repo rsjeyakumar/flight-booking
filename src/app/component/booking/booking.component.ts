@@ -15,15 +15,11 @@ export class BookingComponent implements OnInit {
   loginScreen = false;
   loader = false;
   paymenttype: FormGroup;
-  noOfPassengers: number;
-  ticketId: number;
-  departureTime: string;
-  arrivalTime: string;
-  price: number;
-  flightName: string;
-  totalPrice: number;
+  paramDetails;
   taxPrice: number;
-
+  totalPrice: number;
+  checkLogin = false;
+  checkbeforeLogin = false;
   flightDeatils = {
     flightName: 'Air Asia',
     departureLocation: 'Bangalore',
@@ -46,12 +42,13 @@ export class BookingComponent implements OnInit {
     private messageServive: MessageSubscriptionService
   ) {
       this.route.queryParams.subscribe(params => {
-      this.noOfPassengers = params.noOfPassenger;
-      this.ticketId = params.ticketId;
-      this.departureTime =  params.depatureTime;
-      this.arrivalTime = params.arraivalTime;
-      this.price = params.price;
-      this.flightName = params.flight;
+        this.paramDetails = params;
+      // this.noOfPassengers = params.noOfPassenger;
+      // this.ticketId = params.ticketId;
+      // this.departureTime =  params.depatureTime;
+      // this.arrivalTime = params.arraivalTime;
+      // this.price = params.price;
+      // this.flightName = params.flight;
   });
    }
 
@@ -60,21 +57,32 @@ export class BookingComponent implements OnInit {
       tickets: new FormArray([])
     });
     this.createForm();
-    this.onChangeTickets(this.noOfPassengers);
+    this.onChangeTickets(this.paramDetails.noOfPassenger);
     this.paymenttype = new FormGroup({
 
     });
-    this.taxPrice = (this.price * this.noOfPassengers * 5 / 100);
-    this.totalPrice = this.price * this.noOfPassengers + this.taxPrice;
+    this.taxPrice = (this.paramDetails.price * this.paramDetails.noOfPassenger * 5 / 100);
+    this.totalPrice = this.paramDetails.price * this.paramDetails.noOfPassenger + this.taxPrice;
+    this.checkBookingLogin();
   }
 
 
+  checkBookingLogin() {
+    const user = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (user) {
+      this.checkLogin = true;
+      this.checkbeforeLogin = false;
+    } else {
+      this.checkLogin = false;
+      this.checkbeforeLogin = true;
+    }
+  }
   /* Create form group object for login form
   */
   createForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -111,8 +119,9 @@ export class BookingComponent implements OnInit {
   */
   validateLogin() {
     if (this.loginForm.valid) {
+      this.loginScreen = false;
       const postObj = {
-        phoneNumber: this.loginForm.value.username,
+        mobileNumber: this.loginForm.value.username,
         password: this.loginForm.value.password
       };
       // tslint:disable-next-line: deprecation
@@ -120,12 +129,12 @@ export class BookingComponent implements OnInit {
         console.log(user);
         if (user) {
           const userDetails = {
-            customerName: user.customerName,
+            customerName: user.name,
             customerId: user.customerId
           };
           sessionStorage.setItem('currentUser', JSON.stringify(userDetails));
           this.messageServive.sendMessage(user);
-          // this.router.navigate(['dashboard']);
+          location.reload();
           this.loader = false;
         }
       }, error => {
