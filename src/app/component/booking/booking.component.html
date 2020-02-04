@@ -70,11 +70,11 @@
                                     </div>
                                     <div class="form-group col-6">
                                         <label>Age</label>
-                                        <input type="text" formControlName="passengerAge" class="form-control"
-                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.passengerAge.errors }" />
-                                        <div *ngIf="submitted && ticket.controls.passengerAge.errors"
+                                        <input type="text" formControlName="passengersAge" class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && ticket.controls.passengersAge.errors }" />
+                                        <div *ngIf="submitted && ticket.controls.passengersAge.errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="ticket.controls.passengerAge.errors.required">Age is required
+                                            <div *ngIf="ticket.controls.passengersAge.errors.required">Age is required
                                             </div>
                                         </div>
                                     </div>
@@ -103,35 +103,35 @@
                 </div>
             </div>
             <div class="my-5 px-4" *ngIf="checkLogin">
-                <button class="btn-success btn btn-block" [disabled]="submitted" (click)="addPassenger()">Continue Booking</button>
+                <button class="btn-success btn btn-block" [disabled]="addedPasengers" (click)="addPassenger()">Continue Booking</button>
             </div>
             <div class="my-5 px-4" *ngIf="checkbeforeLogin">
                 <button class="btn-success btn btn-block" (click)="onSubmit()">Login to Continue Booking</button>
             </div>
 
-            <div class="card m-3 marginb40">
+            <div class="card m-3 marginb40" *ngIf="addedPasengers">
                 <h5 class="card-header text-danger">Payment Method</h5>
                 <div class="card-body p-0 my-1">
                     <form [formGroup]="paymenttype" class="mx-5">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" #rad1 type="radio" name="exampleRadios" id="exampleRadios1"
-                                value="paytm" checked>
+                                value="PayTm" checked>
                             <label class="form-check-label" for="exampleRadios1">
                                 PayTm
                             </label>    
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" #rad2 type="radio"  name="exampleRadios" id="exampleRadios2"
-                                value="googlepay">
+                                value="Google Pay">
                             <label class="form-check-label" for="exampleRadios2">
                                 Google Pay
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" #rad3 type="radio"  name="exampleRadios" id="exampleRadios3"
-                                value="bhim">
+                                value="PhonePe">
                             <label class="form-check-label" for="exampleRadios3">
-                                BHIM/UPI
+                                PhonePe
                             </label>
                         </div>
                         <p class="text-center mt-4"><button class="btn-danger btn" (click)="payment(rad1.checked ? rad1.value : rad2.checked ? rad2.value : rad3.checked ? rad3.value : null)">Pay</button>

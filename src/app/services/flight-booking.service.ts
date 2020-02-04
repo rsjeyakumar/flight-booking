@@ -11,8 +11,8 @@ export class FlightBookingService {
   searchAPI = 'http://10.117.189.28:8085/myflight/flights';
   loginAPI = 'http://10.117.189.28:8085/myflight/customers/login';
   cancelAPI = 'http://10.117.189.28:8085/myflight/tickets';
-  passenger = 'http://10.117.189.28:8085/myflight/tickets/passengers';
-  payments = 'http://10.117.189.28:8085/myflight/tickets';
+  addPassenger = 'http://10.117.189.28:8085/myflight/tickets/passengers';
+  payments = 'http://10.117.189.28:8085/myflight/tickets/pay';
 
   constructor(private http: HttpClient) {
   }
@@ -70,9 +70,9 @@ export class FlightBookingService {
    * POST Method
    * Type Object
    */
-  addPassenger(data): Observable<any> {
+  passengerDetail(data, travelId): Observable<any> {
    // this.showAlert = {};
-    return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
+    return this.http.post(this.addPassenger + '/' + travelId, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
   }

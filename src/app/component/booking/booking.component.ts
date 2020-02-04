@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageSubscriptionService } from "./../../services/message-subscription.service";
@@ -21,46 +21,33 @@ export class BookingComponent implements OnInit {
   totalPrice: number;
   checkLogin = false;
   checkbeforeLogin = false;
-  flightDeatils = {
-    flightName: 'Air Asia',
-    departureLocation: 'Bangalore',
-    arrivalLocation: 'Chennai',
-    departureDate: new Date(),
-    duration: new Date().getTime(),
-    departureTime: new Date(),
-    arrivalTime: new Date().getTime(),
-    price: 2000,
-    travelId: 2,
-    flightId: 45
-  };
-
-
-  constructor(
+  addedPasengers=false;
+    constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    public flightService: FlightBookingService,
+    private flightService: FlightBookingService,
     private messageServive: MessageSubscriptionService
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.paramDetails = params;
+      this.route.queryParams.subscribe(params => {
+        this.paramDetails = params;
       // this.noOfPassengers = params.noOfPassenger;
       // this.ticketId = params.ticketId;
       // this.departureTime =  params.depatureTime;
       // this.arrivalTime = params.arraivalTime;
       // this.price = params.price;
       // this.flightName = params.flight;
-    });
-  }
+  });
+   }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
-      PassengerDetailsList: new FormArray([])
+      passengerDetails: new FormArray([])
     });
     this.createForm();
     this.onChangeTickets(this.paramDetails.noOfPassenger);
     this.paymenttype = new FormGroup({
-      paymentmethod: new FormControl()
+
     });
     this.taxPrice = (this.paramDetails.price * this.paramDetails.noOfPassenger * 5 / 100);
     this.totalPrice = this.paramDetails.price * this.paramDetails.noOfPassenger + this.taxPrice;
@@ -95,7 +82,7 @@ export class BookingComponent implements OnInit {
 
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
-  get t() { return this.f.PassengerDetailsList as FormArray; }
+  get t() { return this.f.passengerDetails as FormArray; }
 
   onChangeTickets(e) {
     const numberOfTickets = e || 0;
@@ -103,7 +90,7 @@ export class BookingComponent implements OnInit {
       for (let i = this.t.length; i < numberOfTickets; i++) {
         this.t.push(this.formBuilder.group({
           passengerName: ['', Validators.required],
-          passengerAge: ['', [Validators.required]]
+          passengersAge: ['', [Validators.required]]
         }));
       }
     } else {
@@ -146,26 +133,48 @@ export class BookingComponent implements OnInit {
   }
 
   addPassenger() {
+  //  const postObj = this.dynamicForm.value;
+   // postObj.travelId = this.paramDetails.travelId;
     this.submitted = true;
-    const postObj = this.dynamicForm.value;
-    postObj.travelId = this.paramDetails.travelId;
     if (this.dynamicForm.valid) {
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(postObj));
-    }
+      this.flightService.passengerDetail(this.dynamicForm.value, this.paramDetails.travelId).subscribe(user => {
+        console.log(user);
+        this.addedPasengers=true;
+        swal("Good job!", "Passenger added successfully", "success");
+      }, error => {
+        this.loader = false;
+      });
+     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(postObj));
+    } 
   }
 
   onSubmit() {
     this.loginScreen = true;
   }
+
+  onReset() {
+    // reset whole form back to initial state
+    this.submitted = false;
+    this.dynamicForm.reset();
+    this.t.clear();
+  }
+
+  onClear() {
+    // clear errors and reset ticket fields
+    this.submitted = false;
+    this.t.reset();
+  }
+
   payment(payment) {
     const postObj = {
-      ticketId: +this.paramDetails.ticketId,
+      ticketId: +this.paramDetails.travelId,
       paymentType: payment
     };
     this.flightService.makePayment(postObj).subscribe(
       res => {
-        swal('Good job!', 'Ticked Booked Successfully', 'success');
+        swal('Good job!', 'Ticked Booked Successfully through ' + payment , 'success');
       }
     );
   }
+
 }
