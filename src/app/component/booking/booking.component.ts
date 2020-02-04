@@ -122,8 +122,9 @@ export class BookingComponent implements OnInit {
             customerId: user.customerId
           };
           sessionStorage.setItem('currentUser', JSON.stringify(userDetails));
-          this.messageServive.sendMessage(user);
-          location.reload();
+          this.messageServive.sendMessage(userDetails);
+          this.checkBookingLogin();
+         // location.reload();
           this.loader = false;
         }
       }, error => {
