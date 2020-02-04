@@ -51,7 +51,7 @@
             </div>
 
             <div class="row pb-5 d-block">
-                <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="dynamicForm">
                     <div class="card m-3">
                         <h5 class="card-header text-warning">Passenger Details</h5>
                         <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="my-5 px-4" *ngIf="checkLogin">
-                <button class="btn-success btn btn-block" (click)="onSubmit()">Continue Booking</button>
+                <button class="btn-success btn btn-block" (click)="addPassenger()">Continue Booking</button>
             </div>
             <div class="my-5 px-4" *ngIf="checkbeforeLogin">
                 <button class="btn-success btn btn-block" (click)="onSubmit()">Login to Continue Booking</button>

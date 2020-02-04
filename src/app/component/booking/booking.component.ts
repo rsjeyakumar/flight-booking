@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageSubscriptionService } from "./../../services/message-subscription.service";
+import swal from 'sweetalert';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -54,7 +55,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
-      tickets: new FormArray([])
+      PassengerDetailsList: new FormArray([])
     });
     this.createForm();
     this.onChangeTickets(this.paramDetails.noOfPassenger);
@@ -94,7 +95,7 @@ export class BookingComponent implements OnInit {
 
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
-  get t() { return this.f.tickets as FormArray; }
+  get t() { return this.f.PassengerDetailsList as FormArray; }
 
   onChangeTickets(e) {
     const numberOfTickets = e || 0;
@@ -102,7 +103,7 @@ export class BookingComponent implements OnInit {
       for (let i = this.t.length; i < numberOfTickets; i++) {
         this.t.push(this.formBuilder.group({
           passengerName: ['', Validators.required],
-          passengerAge: ['', [Validators.required, Validators.email]]
+          passengerAge: ['', [Validators.required]]
         }));
       }
     } else {
@@ -127,6 +128,7 @@ export class BookingComponent implements OnInit {
       // tslint:disable-next-line: deprecation
       this.flightService.checkLogin(postObj).subscribe(user => {
         console.log(user);
+        swal("Good job!", "Logged in successfully", "success");
         if (user) {
           const userDetails = {
             customerName: user.name,
@@ -143,17 +145,17 @@ export class BookingComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    alert('test');
+  addPassenger() {
     this.submitted = true;
-    this.loginScreen = true;
-    // stop here if form is invalid
-    // if (this.dynamicForm.invalid) {
-    //   return;
-    // }
+    const postObj = this.dynamicForm.value;
+    postObj.travelId = this.paramDetails.travelId;
+    if (this.dynamicForm.valid) {
+      alert('SUCCESS!! :-)\n\n' + JSON.stringify(postObj));
+    }
+  }
 
-    // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.dynamicForm.value, null, 4));
+  onSubmit() {
+    this.loginScreen = true;
   }
 
   onReset() {

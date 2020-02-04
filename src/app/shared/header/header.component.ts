@@ -37,6 +37,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  goToCancelTickets() {
+    this.router.navigate(['/cancel']);
+  }
+
   /* logout */
   logout(): void {
     sessionStorage.clear();
