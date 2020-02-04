@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageSubscriptionService } from "./../../services/message-subscription.service";
@@ -42,16 +42,16 @@ export class BookingComponent implements OnInit {
     public flightService: FlightBookingService,
     private messageServive: MessageSubscriptionService
   ) {
-      this.route.queryParams.subscribe(params => {
-        this.paramDetails = params;
+    this.route.queryParams.subscribe(params => {
+      this.paramDetails = params;
       // this.noOfPassengers = params.noOfPassenger;
       // this.ticketId = params.ticketId;
       // this.departureTime =  params.depatureTime;
       // this.arrivalTime = params.arraivalTime;
       // this.price = params.price;
       // this.flightName = params.flight;
-  });
-   }
+    });
+  }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
@@ -60,7 +60,7 @@ export class BookingComponent implements OnInit {
     this.createForm();
     this.onChangeTickets(this.paramDetails.noOfPassenger);
     this.paymenttype = new FormGroup({
-
+      paymentmethod: new FormControl()
     });
     this.taxPrice = (this.paramDetails.price * this.paramDetails.noOfPassenger * 5 / 100);
     this.totalPrice = this.paramDetails.price * this.paramDetails.noOfPassenger + this.taxPrice;
@@ -157,18 +157,15 @@ export class BookingComponent implements OnInit {
   onSubmit() {
     this.loginScreen = true;
   }
-
-  onReset() {
-    // reset whole form back to initial state
-    this.submitted = false;
-    this.dynamicForm.reset();
-    this.t.clear();
+  payment(payment) {
+    const postObj = {
+      ticketId: +this.paramDetails.ticketId,
+      paymentType: payment
+    };
+    this.flightService.makePayment(postObj).subscribe(
+      res => {
+        swal('Good job!', 'Ticked Booked Successfully', 'success');
+      }
+    );
   }
-
-  onClear() {
-    // clear errors and reset ticket fields
-    this.submitted = false;
-    this.t.reset();
-  }
-
 }

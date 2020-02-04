@@ -103,38 +103,38 @@
                 </div>
             </div>
             <div class="my-5 px-4" *ngIf="checkLogin">
-                <button class="btn-success btn btn-block" (click)="addPassenger()">Continue Booking</button>
+                <button class="btn-success btn btn-block" [disabled]="submitted" (click)="addPassenger()">Continue Booking</button>
             </div>
             <div class="my-5 px-4" *ngIf="checkbeforeLogin">
                 <button class="btn-success btn btn-block" (click)="onSubmit()">Login to Continue Booking</button>
             </div>
 
-            <div class="card m-3">
+            <div class="card m-3 marginb40">
                 <h5 class="card-header text-danger">Payment Method</h5>
                 <div class="card-body p-0 my-1">
                     <form [formGroup]="paymenttype" class="mx-5">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                                value="option1" checked>
+                            <input class="form-check-input" #rad1 type="radio" name="exampleRadios" id="exampleRadios1"
+                                value="paytm" checked>
                             <label class="form-check-label" for="exampleRadios1">
                                 PayTm
-                            </label>
+                            </label>    
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-                                value="option2">
+                            <input class="form-check-input" #rad2 type="radio"  name="exampleRadios" id="exampleRadios2"
+                                value="googlepay">
                             <label class="form-check-label" for="exampleRadios2">
                                 Google Pay
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-                                value="option3">
+                            <input class="form-check-input" #rad3 type="radio"  name="exampleRadios" id="exampleRadios3"
+                                value="bhim">
                             <label class="form-check-label" for="exampleRadios3">
                                 BHIM/UPI
                             </label>
                         </div>
-                        <p class="text-center mt-4"><button class="btn-danger btn" (click)="onSubmit()">Pay</button>
+                        <p class="text-center mt-4"><button class="btn-danger btn" (click)="payment(rad1.checked ? rad1.value : rad2.checked ? rad2.value : rad3.checked ? rad3.value : null)">Pay</button>
                         </p>
                     </form>
                 </div>

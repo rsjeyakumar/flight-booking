@@ -85,7 +85,7 @@ export class FlightBookingService {
  */
   makePayment(data): Observable<any> {
   //  this.showAlert = {};
-    return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
+    return this.http.post(this.payments, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
   }
