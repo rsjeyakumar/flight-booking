@@ -35,6 +35,28 @@ export class CancelComponent implements OnInit {
    });
  }
 
+ cancelTickets() {
+  if (this.cancelForm.valid) {
+    const postObj = {
+      ticketId: +this.cancelForm.value.ticketId,
+      passengerName: this.cancelForm.value.name
+    };
+    // tslint:disable-next-line: deprecation
+    this.flightService.cancelTicket(postObj).subscribe(user => {
+    this.loader = false;
+    this.cancelForm.reset();
+    swal({
+      title: "Good job!",
+      text: "Ticket has been cancelled successfully",
+      icon: "success",
+      timer: 1000
+    });
+    }, error => {
+      this.loader = false;
+    });
+  }
+ }
+
   ngOnInit() {
     this.createForm();
   }
