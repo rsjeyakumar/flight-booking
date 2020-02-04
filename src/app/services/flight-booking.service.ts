@@ -10,6 +10,7 @@ export class FlightBookingService {
   showAlert;
   searchAPI = 'http://10.117.189.28:8085/myflight/flights';
   loginAPI = 'http://10.117.189.28:8085/myflight/customers/login';
+  cancelAPI = 'http://10.117.189.28:8085/myflight/tickets';
   passenger = 'http://10.117.189.28:8085/myflight/tickets/passengers';
   payments = 'http://10.117.189.28:8085/myflight/tickets';
 
@@ -89,6 +90,12 @@ export class FlightBookingService {
     );
   }
 
+  cancelTicket(data) {
+    this.showAlert = {};
+    return this.http.delete(this.cancelAPI + '?ticketId=' + data.ticketId + '&passengerName=' +  data.passengerName  ).pipe(
+      catchError(this.errorHandler.bind(this))
+    );
+  }
   /*
      * @param error
      * Error Handling
