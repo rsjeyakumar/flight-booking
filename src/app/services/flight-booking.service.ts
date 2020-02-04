@@ -7,7 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FlightBookingService {
-  showAlert = {};
+  showAlert;
   searchAPI = 'http://10.117.189.28:8085/myflight/flights';
   loginAPI = 'http://10.117.189.28:8085/myflight/customers/login';
   passenger = 'http://10.117.189.28:8085/myflight/tickets/passengers';
@@ -30,7 +30,7 @@ export class FlightBookingService {
   * Type Object
   */
   checkLogin(data): Observable<any> {
-    this.showAlert = {};
+    //this.showAlert = {};
     return this.http.post(this.loginAPI, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -43,7 +43,7 @@ export class FlightBookingService {
  * Type Object
  */
   searchFlights(data): Observable<any> {
-    this.showAlert = {};
+   // this.showAlert = {};
     return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -56,7 +56,7 @@ export class FlightBookingService {
  * Type Object
  */
   flightDetails(data): Observable<any> {
-    this.showAlert = {};
+    //this.showAlert = {};
     return this.http.get(this.searchAPI, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -70,7 +70,7 @@ export class FlightBookingService {
    * Type Object
    */
   addPassenger(data): Observable<any> {
-    this.showAlert = {};
+   // this.showAlert = {};
     return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -83,7 +83,7 @@ export class FlightBookingService {
  * Type Object
  */
   makePayment(data): Observable<any> {
-    this.showAlert = {};
+  //  this.showAlert = {};
     return this.http.post(this.searchAPI, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );

@@ -38,7 +38,7 @@ export class BookingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private flightService: FlightBookingService,
+    public flightService: FlightBookingService,
     private messageServive: MessageSubscriptionService
   ) {
       this.route.queryParams.subscribe(params => {
