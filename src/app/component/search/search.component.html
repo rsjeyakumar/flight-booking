@@ -24,76 +24,66 @@
 </section>
 <section class="search-sec">
     <div class="container">
-        <form [formGroup]="searchForm" (ngSubmit)="searchFlights();">
+        <form [formGroup]="searchForm" (ngSubmit)="showFlights();">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
                             <select class="form-control search-slt" id="exampleFormControlSelect1" formControlName="deaptureLocation">
-                                <option value=''>Depature City</option>
+                                <option value=''>Departure City</option>
                                 <option>Bangalore</option>
                                 <option>Chennai</option>
-                                <option>Hyderabad</option>
-                                <option>New Delhi</option>
-                                <option>Mumbai</option>
-                                <option>Coimbatore</option>
+                                <option>Madurai</option>
                             </select>
                             <div *ngIf="search.deaptureLocation.touched && search.deaptureLocation.invalid" class="error">
                                 <div *ngIf="search.deaptureLocation.errors && search.deaptureLocation.errors.required">
-                                    Depature Location is <strong>required</strong>
+                                    Depature location is <strong>required</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
                             <select class="form-control search-slt" id="exampleFormControlSelect1" formControlName="arraivalLocation">
-                                <option value=''>Arraival City</option>
-                                <option value="bangalore">Bangalore</option>
-                                <option value="chennai">Chennai</option>
-                                <option value="hyderabad">Hyderabad</option>
-                                <option value="delhi">New Delhi</option>
-                                <option value="mumbai">Mumbai</option>
-                                <option value="coimbatore">Coimbatore</option>
+                                <option value=''>Arrival City</option>
+                                <option>Bangalore</option>
+                                <option>Chennai</option>
+                                <option>Madurai</option>
                             </select>
                             <div *ngIf="search.arraivalLocation.touched && search.arraivalLocation.invalid" class="error">
                                 <div *ngIf="search.arraivalLocation.errors && search.arraivalLocation.errors.required">
-                                    Arrival Location is <strong>required</strong>
+                                    Arrival location is <strong>required</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                            <p-calendar formControlName="depatureDate" class="form-control search-slt"  placeholder="Depature Date"></p-calendar>
+                            <p-calendar formControlName="depatureDate" [minDate]="minimumDate" class="form-control search-slt" dateFormat="yy-mm-dd"  placeholder="Depature Date"></p-calendar>
                             <div *ngIf="search.depatureDate.touched && search.depatureDate.invalid" class="error">
                                 <div *ngIf="search.depatureDate.errors && search.depatureDate.errors.required">
-                                   Depature Date is <strong>required</strong>
+                                   Departure date is <strong>required</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                            <select class="form-control search-slt" id="exampleFormControlSelect1" formControlName="travellers">
-                                <option value=''>Number of Travellers</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
+                            <input type="text" class="form-control search-slt" formControlName="travellers" placeholder="Number of Travellers">
                             <div *ngIf="search.travellers.touched && search.travellers.invalid" class="error">
                                 <div *ngIf="search.travellers.errors && search.travellers.errors.required">
-                                 Traveller is <strong>required</strong>
+                                 Number of traveller is <strong>required</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
                             <select class="form-control search-slt" id="exampleFormControlSelect1" formControlName="travelClass">
                                 <option value=''>Travel Class</option>
-                                <option value="economy">Economy</option>
-                                <option value="business">Business</option>
+                                <option value="Economy">Economy</option>
+                                <option value="Business">Business</option>
                             </select>
                             <div *ngIf="search.travelClass.touched && search.travelClass.invalid" class="error">
                                 <div *ngIf="search.travelClass.errors && search.travelClass.errors.required">
-                                  Traveller Class is <strong>required</strong>
+                                  Traveller class is <strong>required</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                            <button type="button" class="btn btn-danger wrn-btn" [disabled]="searchForm.invalid">Search</button>
+                            <button type="submit" class="btn btn-danger wrn-btn" [disabled]="searchForm.invalid">Search</button>
                         </div>
                     </div>
                 </div>
@@ -101,10 +91,40 @@
         </form>
     </div>
 </section>
-<section class="search-sec" style="margin-top: 10%; margin-bottom: 3%;">
+<section class="search-sec" style="margin-top: 5%; margin-bottom: 3%;">
     <div class="container-fluid">
         <div class="col-sm-12">
-            <div class="card">
+            <!-- <div class="card mt-3" *ngFor="let flights of flightDetails?.flightList">
+                <div class="card-body col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <h5 class="card-title text-info">Flight Name</h5>
+                            <span class="card-title">{{flights?.flightName}}</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <h5 class="card-title text-info">Dpature Time</h5>
+                            <span class="card-title">{{flights?.departureTime}}</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <h5 class="card-title text-info">Duration</h5>
+                            <span class="card-title">{{flights?.duration}}</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <h5 class="card-title text-info">Arrival Time</h5>
+                            <span class="card-title">{{flights?.arrivalTime}}</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <h5 class="card-title text-info">Price</h5>
+                            <span class="card-title">{{flights?.price | currency:INR:'true'}}</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                            <button type="button" class="btn btn-primary btn-lg" (click)="bookFlights();">Book</button>
+                        </div>
+                    </div>
+                </div>
+              </div> -->
+
+              <div class="card mt-3">
                 <div class="card-body col-sm-12">
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
@@ -112,7 +132,7 @@
                             <span class="card-title">Indio (6E12345)</span>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                            <h5 class="card-title text-info">Dpature Time</h5>
+                            <h5 class="card-title text-info">Departure Time</h5>
                             <span class="card-title">00:05</span>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
@@ -128,37 +148,15 @@
                             <span class="card-title">5000</span>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                            <button type="button" class="btn btn-primary btn-lg" (click)="bookFlights();">Book</button>
+                            <button type="button" class="btn btn-primary btn-lg" (click)="bookFlights(flightName,depatureTime,arraivalTime,price);">Book</button>
                         </div>
                     </div>
                 </div>
               </div>
-            <!-- <div class="card">
-                <div class="card-body">
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <h5 class="card-title">Indigo (6E12345)</h5>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <h5 class="card-title">Dpature Time</h5>
-                        <h5 class="card-title">00:05</h5>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <h5 class="card-title">Duration</h5>
-                        <h5 class="card-title">02hrs 50mins</h5>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <h5 class="card-title">Arrival Time</h5>
-                        <h5 class="card-title">02:50</h5>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <h5 class="card-title">Price</h5>
-                        <h5 class="card-title">5000</h5>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                        <a href="#" class="btn btn-primary">Book</a>
-                    </div>
-                </div>
-              </div> -->
+           
         </div>
     </div>
 </section>
+
+<app-loader [loader]="loader"></app-loader>
+<app-alert [sharedAlert]="flightService.showAlert" *ngIf="flightService.showAlert?.modalShow"></app-alert>

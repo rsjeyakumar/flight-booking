@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageSubscriptionService } from "./../../services/message-subscription.service";
 @Component({
   selector: 'app-booking',
@@ -15,7 +15,14 @@ export class BookingComponent implements OnInit {
   loginScreen = false;
   loader = false;
   paymenttype: FormGroup;
-
+  noOfPassengers: number;
+  ticketId: number;
+  departureTime: string;
+  arrivalTime: string;
+  price: number;
+  flightName: string;
+  totalPrice: number;
+  taxPrice: number;
 
   flightDeatils = {
     flightName: 'Air Asia',
@@ -34,20 +41,31 @@ export class BookingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private flightService: FlightBookingService,
     private messageServive: MessageSubscriptionService
-  ) { }
+  ) {
+      this.route.queryParams.subscribe(params => {
+      this.noOfPassengers = params.noOfPassenger;
+      this.ticketId = params.ticketId;
+      this.departureTime =  params.depatureTime;
+      this.arrivalTime = params.arraivalTime;
+      this.price = params.price;
+      this.flightName = params.flight;
+  });
+   }
 
   ngOnInit() {
     this.dynamicForm = this.formBuilder.group({
       tickets: new FormArray([])
     });
     this.createForm();
-    this.onChangeTickets(2);
-
+    this.onChangeTickets(this.noOfPassengers);
     this.paymenttype = new FormGroup({
 
     });
+    this.taxPrice = (this.price * this.noOfPassengers * 5 / 100);
+    this.totalPrice = this.price * this.noOfPassengers + this.taxPrice;
   }
 
 
@@ -107,7 +125,7 @@ export class BookingComponent implements OnInit {
           };
           sessionStorage.setItem('currentUser', JSON.stringify(userDetails));
           this.messageServive.sendMessage(user);
-          this.router.navigate(['dashboard']);
+          // this.router.navigate(['dashboard']);
           this.loader = false;
         }
       }, error => {
