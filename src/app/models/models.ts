@@ -10,3 +10,9 @@ export interface Search {
     travelId: number;
     flightId: number;
 }
+export interface FlightListResponse {
+    flightDetails: Search[];
+    statusCode: number;
+    message: string;
+
+}
