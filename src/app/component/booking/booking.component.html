@@ -5,8 +5,31 @@
                 <div class="card m-3">
                     <h5 class="card-header text-primary">Flight Details</h5>
                     <div class="card-body">
-                        <div class="row border rounder">
-                            <div class="col-sm-12">
+                        <div class="row">
+                            <div class="card col-sm-12 mt-3">
+                                <div class="card-body col-sm-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <h5 class="card-title text-info">Flight</h5>
+                                            <span class="card-title">{{flightName}}</span>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <h5 class="card-title text-info">Departure</h5>
+                                            <span class="card-title">{{departureTime}}</span>
+                                        </div>
+                                       
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <h5 class="card-title text-info">Arrival</h5>
+                                            <span class="card-title">{{arrivalTime}}</span>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <h5 class="card-title text-info">Price</h5>
+                                            <span class="card-title">{{price}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            <!-- <div class="col-sm-12">
                                 <p>{{flightDeatils.departureLocation}} - {{flightDeatils.arrivalLocation}} |
                                     {{flightDeatils.departureDate | date:'d/M/y'}}</p>
                             </div>
@@ -20,7 +43,7 @@
                                 <span>
                                     <b>{{flightDeatils.arrivalLocation}}</b>
                                 </span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -30,7 +53,7 @@
             <div class="row pb-5 d-block">
                 <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
                     <div class="card m-3">
-                        <h5 class="card-header text-primary">Passenger Details</h5>
+                        <h5 class="card-header text-warning">Passenger Details</h5>
                         <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
                             <div class="list-group-item">
                                 <b class="card-title">Passenger {{i + 1}}</b>
@@ -64,15 +87,18 @@
         </div>
         <div class="col-sm-5">
             <div class="card m-3">
-                <h5 class="card-header text-primary">Price Summary</h5>
+                <h5 class="card-header text-success">Price Summary</h5>
                 <div class="card-body p-0 my-1">
-                    <p class="border-bottom"><span class="ml-1">Adult</span> <span
-                            class="float-right mr-1">&#x20b9;1290</span>
+                    <p class="border-bottom"><span class="ml-1">Ticket Fair</span> <span
+                        class="float-right mr-1">&#x20b9;{{price}}</span>
                     </p>
-                    <p class="border-bottom"><span class="ml-1">Tax</span><span
-                            class="float-right mr-1">&#x20b9;0</span>
+                    <p class="border-bottom"><span class="ml-1">Number of Passengers</span> <span
+                        class="float-right mr-1">{{noOfPassengers}}</span>
                     </p>
-                    <p class="text-info"><b class=" ml-1">Grand Total</b> <b class="float-right mr-1">&#x20b9;1290</b>
+                    <p class="border-bottom"><span class="ml-1">Tax(GST: 5%)</span><span
+                            class="float-right mr-1">&#x20b9;{{taxPrice}}</span>
+                    </p>
+                    <p class="text-info"><b class=" ml-1">Grand Total</b> <b class="float-right mr-1">&#x20b9;{{totalPrice}}</b>
                     </p>
                 </div>
             </div>
@@ -81,7 +107,7 @@
             </div>
 
             <div class="card m-3">
-                <h5 class="card-header text-primary">Payment Method</h5>
+                <h5 class="card-header text-danger">Payment Method</h5>
                 <div class="card-body p-0 my-1">
                     <form [formGroup]="paymenttype" class="mx-5">
                         <div class="form-check form-check-inline">
@@ -105,7 +131,7 @@
                                 BHIM/UPI
                             </label>
                         </div>
-                        <p class="text-center mt-4"><button class="btn-success btn" (click)="onSubmit()">Pay</button>
+                        <p class="text-center mt-4"><button class="btn-danger btn" (click)="onSubmit()">Pay</button>
                         </p>
                     </form>
                 </div>
@@ -145,3 +171,6 @@
             class="ui-button-secondary"></button>
     </form>
 </p-dialog>
+
+<app-loader [loader]="loader"></app-loader>
+<app-alert [sharedAlert]="flightService.showAlert" *ngIf="flightService.showAlert?.modalShow"></app-alert>

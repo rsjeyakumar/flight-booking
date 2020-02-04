@@ -17,10 +17,8 @@ export class HeaderComponent implements OnInit {
 
   /* Get loggged user details from subject subscription */
   getLoginUser(): void {
-
     // subscribe to home component messages
     this.subscription = this.messageService.getMessage().subscribe(userData => {
-
       if (userData) {
         console.log(userData);
         this.userDetails = userData;
@@ -36,9 +34,7 @@ export class HeaderComponent implements OnInit {
     if (user) {
       /* send message to subscribers via observable subject */
       this.messageService.sendMessage(user);
-
     }
-
   }
 
   /* logout */
@@ -47,6 +43,7 @@ export class HeaderComponent implements OnInit {
     this.messageService.clearMessages();
     this.router.navigate(['/search']);
   }
+  
   ngOnInit() {
     this.getLoginUser();
     this.getIfAlreadyLogged();
