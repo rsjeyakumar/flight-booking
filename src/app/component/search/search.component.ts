@@ -70,10 +70,12 @@ export class SearchComponent implements OnInit {
   * @param Book Flight
   * Book Flight from list
   */
-bookFlights(flightName, depatureTime, arraivalTime, price) {
+bookFlights(flightsDetails) {
   const travellers = this.searchForm.value.travellers;
-  this.router.navigate(['/booking'], { queryParams: { ticketId: 1, noOfPassenger: this.searchForm.value.travellers, flight: 'Indigo', 
-  depatureTime: '00.12', arraivalTime: '02.30', price: 5000 } });
+  const postObj = flightsDetails;
+  postObj.noOfPassenger = travellers;
+
+  this.router.navigate(['/booking'], { queryParams: postObj});
 }
 
   ngOnInit() {
