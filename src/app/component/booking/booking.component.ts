@@ -172,7 +172,7 @@ export class BookingComponent implements OnInit {
     };
     this.flightService.makePayment(postObj).subscribe(
       res => {
-        swal('Good job!', 'Ticked Booked Successfully through ' + payment , 'success');
+        swal('Good job!', 'Ticked has been booked successfully through ' + payment , 'success');
       }
     );
   }
