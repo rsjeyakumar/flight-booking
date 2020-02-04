@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FlightBookingService } from '../../services/flight-booking.service';
-
+import swal from 'sweetalert';
 @Component({
   selector: 'app-cancel',
   templateUrl: './cancel.component.html',
