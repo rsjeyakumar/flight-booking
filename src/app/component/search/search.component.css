@@ -26,6 +26,8 @@
     .search-sec{
         position: relative;
         background: rgba(26, 70, 104, 0.51);
+        bottom: 340px;
+        z-index: 1;
     }
 }
 

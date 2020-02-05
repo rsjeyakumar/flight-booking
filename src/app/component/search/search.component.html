@@ -91,7 +91,8 @@
         </form>
     </div>
 </section>
-<section *ngIf="flightList" class="search-sec" style="margin-top: 5%; margin-bottom: 3%;">
+<section *ngIf="flightList" style="bottom: 100px;
+position: relative;">
     <div class="container-fluid">
         <div class="col-sm-12">
             <div class="card mt-3" *ngFor="let flights of flightList?.flightDetails">

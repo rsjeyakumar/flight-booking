@@ -31,7 +31,7 @@ export class FlightBookingService {
   * Type Object
   */
   checkLogin(data): Observable<any> {
-    //this.showAlert = {};
+    // this.showAlert = {};
     return this.http.post(this.loginAPI, data, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -57,7 +57,7 @@ export class FlightBookingService {
  * Type Object
  */
   flightDetails(data): Observable<any> {
-    //this.showAlert = {};
+    // this.showAlert = {};
     return this.http.get(this.searchAPI, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -91,7 +91,7 @@ export class FlightBookingService {
   }
 
   cancelTicket(data) {
-    this.showAlert = {};
+   // this.showAlert = {};
     return this.http.delete(this.cancelAPI + '?ticketId=' + data.ticketId + '&passengerName=' +  data.passengerName  ).pipe(
       catchError(this.errorHandler.bind(this))
     );
@@ -102,6 +102,7 @@ export class FlightBookingService {
      */
   private errorHandler(error) {
     let errorMessage = '';
+    this.showAlert = {};
     if (error.error instanceof ErrorEvent) {
       /* Get client-side error */
       errorMessage = error.error.message;

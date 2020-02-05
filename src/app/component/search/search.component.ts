@@ -74,7 +74,6 @@ export class SearchComponent implements OnInit {
     const travellers = this.searchForm.value.travellers;
     const postObj = flightsDetails;
     postObj.noOfPassenger = travellers;
-
     this.router.navigate(['/booking'], { queryParams: postObj });
   }
 
