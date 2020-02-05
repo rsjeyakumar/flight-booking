@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FlightBookingService } from '../../services/flight-booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageSubscriptionService } from "./../../services/message-subscription.service";
-import swal from 'sweetalert';
+import { MessageSubscriptionService } from './../../services/message-subscription.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -21,22 +21,16 @@ export class BookingComponent implements OnInit {
   totalPrice: number;
   checkLogin = false;
   checkbeforeLogin = false;
-  addedPasengers=false;
+  addedPasengers = false;
     constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private flightService: FlightBookingService,
+    public flightService: FlightBookingService,
     private messageServive: MessageSubscriptionService
   ) {
       this.route.queryParams.subscribe(params => {
         this.paramDetails = params;
-      // this.noOfPassengers = params.noOfPassenger;
-      // this.ticketId = params.ticketId;
-      // this.departureTime =  params.depatureTime;
-      // this.arrivalTime = params.arraivalTime;
-      // this.price = params.price;
-      // this.flightName = params.flight;
   });
    }
 
@@ -115,7 +109,7 @@ export class BookingComponent implements OnInit {
       // tslint:disable-next-line: deprecation
       this.flightService.checkLogin(postObj).subscribe(user => {
         console.log(user);
-        swal("Good job!", "Logged in successfully", "success");
+        Swal.fire('Good job!', 'Logged in successfully', 'success');
         if (user) {
           const userDetails = {
             customerName: user.name,
@@ -140,13 +134,13 @@ export class BookingComponent implements OnInit {
     if (this.dynamicForm.valid) {
       this.flightService.passengerDetail(this.dynamicForm.value, this.paramDetails.travelId).subscribe(user => {
         console.log(user);
-        this.addedPasengers=true;
-        swal("Good job!", "Passenger added successfully", "success");
+        this.addedPasengers = true;
+        Swal.fire('Good job!', 'Passenger added successfully', 'success');
       }, error => {
         this.loader = false;
       });
      // alert('SUCCESS!! :-)\n\n' + JSON.stringify(postObj));
-    } 
+    }
   }
 
   onSubmit() {
@@ -173,7 +167,16 @@ export class BookingComponent implements OnInit {
     };
     this.flightService.makePayment(postObj).subscribe(
       res => {
-        swal('Good job!', 'Ticked has been booked successfully through ' + payment , 'success');
+        Swal.fire({
+          title: 'Good job!',
+          text: 'Ticked has been booked successfully through ' + payment,
+          icon: 'success',
+          timer: 2000
+        });
+        // swal('Good job!', 'Ticked has been booked successfully through ' + payment , 'success');
+        setTimeout(() => {
+          this.router.navigate(['/search']);
+        }, 3000);
       }
     );
   }

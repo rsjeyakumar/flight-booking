@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FlightBookingService } from '../../services/flight-booking.service';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-cancel',
   templateUrl: './cancel.component.html',
@@ -14,7 +14,7 @@ export class CancelComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private flightService: FlightBookingService,
+    public flightService: FlightBookingService
   ) {}
 
   /*
@@ -44,10 +44,10 @@ export class CancelComponent implements OnInit {
     this.flightService.cancelTicket(postObj).subscribe(user => {
     this.loader = false;
     this.cancelForm.reset();
-    swal({
-      title: "Good job!",
-      text: "Ticket has been cancelled successfully",
-      icon: "success",
+    Swal.fire({
+      title: 'Good job!',
+      text: 'Ticket has been cancelled successfully',
+      icon: 'success',
       timer: 1000
     });
     }, error => {
